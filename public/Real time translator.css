@@ -1,0 +1,124 @@
+/* General styling */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Body background */
+body {
+    background-color: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header styling with frame */
+header {
+    background-color: #009688;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+header a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Framed container styling */
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-top: 20px;
+}
+
+.container h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Input and Button Styling */
+label {
+    font-size: 1rem;
+    color: #333;
+    display: block;
+    margin-top: 10px;
+}
+
+textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+button {
+    background-color: #009688;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #00796b;
+}
+
+/* Display Text Styling */
+#displayText, #translatedText {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #555;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 100%;
+    text-align: left;
+}
+
+/* Footer styling */
+footer {
+    background-color: #009688;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
+}

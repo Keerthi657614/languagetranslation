@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js'></script>
+    <title>Image To Text Translator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 1rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+            height: 100vh;
+            background-color: white; /* Light background color */
+            transition: background-color 0.3s; /* Smooth background transition */
+        }
+
+        header {
+            background-color: #10b3ad; /* Dark blue for header */
+            color: black;
+            padding: 20px;
+            width: 100%; /* Full width */
+            text-align: center;
+            box-shadow: 0 2px 10px whi; /* Shadow effect */
+            position: absolute; /* Fixed positioning */
+            top: 0; /* Align to top */
+            left: 0; /* Align to left */
+        }
+
+        .main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #94deea; /* Dark blue */
+            color: white;
+            padding: 40px 60px; /* Increased padding */
+            border-radius: 10px;
+            box-shadow: white; /* Soft shadow */
+            transition: box-shadow 0.3s; /* Smooth shadow transition */
+            margin-top: 80px; /* Space for header */
+        }
+
+        .main:hover {
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            background-color: #ffffff; /* White background */
+            color: #1e3a8a; /* Dark blue text */
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s; /* Added transform for scaling */
+        }
+
+        button:hover {
+            background-color: #1e3a8a; /* Dark blue background on hover */
+            color: #ffffff; /* White text on hover */
+            transform: scale(1.05); /* Slightly enlarge button */
+        }
+
+        .child {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            flex-direction: column;
+            margin-top: 20px;
+            width: 100%; /* Ensure full width for children */
+        }
+
+        input {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            background-color: #ffffff;
+            color: rgb(113, 113, 113);
+            margin-top: 10px;
+            transition: border-color 0.3s; /* Smooth border transition */
+        }
+
+        input:focus {
+            border: 2px solid #1e3a8a; /* Border color on focus */
+            outline: none; /* Remove outline */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .text {
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            background-color: #dc2626; /* Red background */
+            color: white;
+            margin-top: 10px; /* Add margin for spacing */
+            animation: fadeIn 0.5s; /* Fade-in effect */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        textarea {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            background-color: #ffffff;
+            color: black;
+            margin-top: 10px;
+            height: 200px;
+            resize: none; /* Prevent resizing */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for textarea */
+            transition: box-shadow 0.3s; /* Smooth shadow transition */
+        }
+
+        textarea:focus {
+            box-shadow: 0 0 10px rgba(30, 58, 138, 0.5); /* Highlight on focus */
+        }
+
+        h1 {
+            font-size: 2.5rem; /* Increased font size */
+            text-align: center;
+            margin-bottom: 20px; /* Space below heading */
+        }
+
+        footer {
+            background-color: #10b3ad; /* Dark blue for footer */
+            color: white;
+            text-align: center;
+            padding: 10px 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow on footer */
+            position: relative; /* Position relative to maintain flow */
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Image to Text Translator</h1>
+    </header>
+    <div class="main">
+        <p id="text"></p>
+        <div class="child">
+            <label>
+                <input type="file" id="image" accept="image/*">
+            </label>
+        </div>
+        <div class="child">
+            <button id="btn">Convert</button>
+        </div>
+        <div class="child">
+            <textarea id="textarea" class="hidden" cols="35" placeholder="Converted text will appear here..."></textarea>
+        </div>
+        <footer id="checkAuthor">
+           <p>image to text </p>
+        </footer>
+    </div>
+</body>
+<script>
+    const image = document.getElementById('image');
+    const btn = document.getElementById('btn');
+    
+    function loading() {
+        const text = document.getElementById('text');
+        text.classList.add('text');
+        text.innerHTML = 'Loading...';
+    }
+
+    btn.addEventListener('click', () => {
+        if (image.files.length === 0) {
+            alert('Please select an image');
+        } else {
+            const textArea = document.getElementById('textarea');
+            textArea.classList.add('hidden');
+            const file = image.files[0];
+            loading();
+            Tesseract.recognize(file)
+                .then(({ data: { text } }) => {
+                    const a = document.createElement('a');
+                    textArea.classList.remove('hidden');
+                    textArea.value = text;
+                    a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+                    a.setAttribute('download', image.files[0].name.split('.')[0] + '.txt');
+                    document.body.appendChild(a);
+                    a.click();
+                    const loadingText = document.getElementById('text');
+                    loadingText.classList.remove('text');
+                    loadingText.innerHTML = '';
+                })
+        }
+    });
+
+    const checkAuthor = document.getElementById("checkAuthor");
+    if (checkAuthor.children[0].children[0].textContent === "@ammulu0") {
+        // Logic for author check
+    }
+</script>
+</html>

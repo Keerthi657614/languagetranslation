@@ -1,0 +1,104 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Centering and background styling */
+body {
+    background: url('https://cdn5.vectorstock.com/i/1000x1000/98/79/falling-letters-english-language-bright-vector-38839879.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+/* Main form container styling */
+.form-container {
+    background:  rgb(59 190 187 / 58%);
+    padding: 70px 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px); /* Blur effect for background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+}
+
+/* Avatar styling */
+.avatar {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f5f9ff;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+/* Form fields styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 50px;
+}
+
+/* Input fields styling */
+input[type="text"],
+input[type="password"] {
+    padding: 12px;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #4a90e2;
+}
+
+/* Submit button styling */
+.submit-btn {
+    padding: 12px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #4a90e2;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #357ab8;
+}
+
+/* Link styling */
+form + p {
+    font-size: 14px;
+    color:black;
+    margin-top: 15px;
+}
+
+form + p a {
+    color:black;
+    text-decoration: none;
+}
+
+form + p a:hover {
+    text-decoration: underline;
+}

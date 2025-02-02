@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Location</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #10b3ad;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #333;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #output {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+    p {
+      margin: 5px 0;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Find My Location</h1>
+  <button onclick="fetchLocation()">My Location</button>
+  <div id="output"></div>
+
+  <script>
+    // A complete list of Indian states and their official languages
+    const countryStatesLanguages = {
+      "India": {
+        states: [
+          { name: "Andhra Pradesh", language: "Telugu" },
+          { name: "Arunachal Pradesh", language: "Hindi, English, and various indigenous languages" },
+          { name: "Assam", language: "Assamese" },
+          { name: "Bihar", language: "Hindi" },
+          { name: "Chhattisgarh", language: "Hindi" },
+          { name: "Goa", language: "Konkani" },
+          { name: "Gujarat", language: "Gujarati" },
+          { name: "Haryana", language: "Hindi" },
+          { name: "Himachal Pradesh", language: "Hindi" },
+          { name: "Jharkhand", language: "Hindi" },
+          { name: "Karnataka", language: "Kannada" },
+          { name: "Kerala", language: "Malayalam" },
+          { name: "Madhya Pradesh", language: "Hindi" },
+          { name: "Maharashtra", language: "Marathi" },
+          { name: "Manipur", language: "Manipuri" },
+          { name: "Meghalaya", language: "Khasi, Garo, and others" },
+          { name: "Mizoram", language: "Mizo" },
+          { name: "Nagaland", language: "English and various indigenous languages" },
+          { name: "Odisha", language: "Odia" },
+          { name: "Punjab", language: "Punjabi" },
+          { name: "Rajasthan", language: "Hindi" },
+          { name: "Sikkim", language: "Nepali, Sikkimese, Lepcha" },
+          { name: "Tamil Nadu", language: "Tamil" },
+          { name: "Telangana", language: "Telugu" },
+          { name: "Tripura", language: "Bengali, Kokborok" },
+          { name: "Uttar Pradesh", language: "Hindi" },
+          { name: "Uttarakhand", language: "Hindi" },
+          { name: "West Bengal", language: "Bengali" },
+          { name: "Andaman and Nicobar Islands", language: "Hindi, English" },
+          { name: "Chandigarh", language: "Punjabi, Hindi, English" },
+          { name: "Dadra and Nagar Haveli and Daman and Diu", language: "Gujarati, Hindi, English" },
+          { name: "Lakshadweep", language: "Malayalam" },
+          { name: "Delhi", language: "Hindi, English" },
+          { name: "Puducherry", language: "Tamil, Telugu, Malayalam, English" }
+        ]
+      },
+    };
+
+    function fetchLocation() {
+      const outputElement = document.getElementById('output');
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            reverseGeocode(latitude, longitude);
+            outputElement.innerHTML = '';
+          },
+          (err) => {
+            outputElement.innerHTML = '<p style="color: red;">Unable to retrieve your location.</p>';
+          }
+        );
+      } else {
+        outputElement.innerHTML = '<p style="color: red;">Geolocation is not supported by this browser.</p>';
+      }
+    }
+
+    async function reverseGeocode(latitude, longitude) {
+      const outputElement = document.getElementById('output');
+      try {
+        const response = await fetch(
+          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          const areaName = data.locality || data.city || 'Location not found';
+          const stateName = data.principalSubdivision || 'State not found';
+          const countryName = data.countryName || 'Country not found';
+
+          outputElement.innerHTML = `
+            <p>Area: ${areaName}</p>
+            <p>State: ${stateName}</p>
+            <p>Country: ${countryName}</p>
+          `;
+
+          // Fetch states and languages for the country
+          getStatesAndLanguages(countryName, stateName);
+        } else {
+          outputElement.innerHTML = '<p style="color: red;">Error fetching location data.</p>';
+        }
+      } catch (error) {
+        outputElement.innerHTML = '<p style="color: red;">Error fetching location data.</p>';
+      }
+    }
+
+    function getStatesAndLanguages(country, state) {
+      const countryData = countryStatesLanguages[country];
+
+      if (countryData) {
+        const stateData = countryData.states.find(s => s.name === state);
+        if (stateData) {
+          alert(`State: ${stateData.name}\nLanguage(s): ${stateData.language}`);
+        } else {
+          alert('State information not found.');
+        }
+      } else {
+        alert('No state information available for this country.');
+      }
+    }
+  </script>
+</body>
+</html>

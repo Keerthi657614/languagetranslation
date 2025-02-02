@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="Vice-versa.css" />
+  <title>Text to Speech</title>
+</head>
+<body onload="resetEverything()">
+  <header>
+    <div class="container">
+      <h1>Text to Speech Converter</h1>
+      <p>Effortlessly convert text to high-quality speech output</p>
+      <a href="/Speech_text">Speech_text</a>
+    </div>
+  </header>
+  
+  <main>
+    <div class="container">
+      <form action="#">
+        <div class="input-group">
+          <label for="text-input">Enter Text</label>
+          <textarea id="text-input" placeholder="Type your text here..."></textarea>
+        </div>
+        
+        <!-- Search input for filtering voices -->
+        <div class="input-group">
+          <label for="voice-search">Search Voices</label>
+          <input type="text" id="voice-search" placeholder="Search by language or voice name..." />
+        </div>
+        
+        <div class="input-group">
+          <label for="voice-select">Select Voice</label>
+          <select id="voice-select"></select>
+        </div>
+        
+        <div class="button-group">
+          <button type="button" id="convert-btn">Convert to Speech</button>
+        </div>
+      </form>
+    </div>
+  </main>
+  
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Ammulu0 | Text to Speech Converter</p>
+    </div>
+  </footer>
+  
+  <script src="Vice-versa.js"></script>
+</body>
+</html>

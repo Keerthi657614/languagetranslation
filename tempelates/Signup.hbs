@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="Signup.css">
+</head>
+<body>
+    <div class="form-container">
+        <!-- Avatar logo -->
+        <div class="avatar">
+            <img src="https://img.icons8.com/ios-filled/100/4a90e2/user-male-circle.png" alt="User Icon">
+        </div>
+        
+        <!-- Sign Up Form -->
+        <form action="/signup" method="post" onsubmit="return validateForm()">
+            <input id="name" placeholder="Name" name="name" type="text" required>
+            <input id="password" placeholder="Password" name="password" type="password" required>
+            <input class="submit-btn" type="submit" value="Sign Up">
+        </form>
+
+        <p>Already have an account? <a href="/Login">Login</a></p>
+    </div>
+
+    <script>
+        function validateForm() {
+            const name = document.getElementById("name").value;
+            const password = document.getElementById("password").value;
+
+            // Name validation: only letters, minimum 3 characters
+            const nameRegex = /^[A-Za-z]{3,}$/;
+            if (!nameRegex.test(name)) {
+                alert("Name should contain only letters and be at least 3 characters long.");
+                return false;
+            }
+
+            // Password validation: starts with a capital letter, contains at least one special character, minimum 8 characters
+            const passwordRegex = /^[A-Z][A-Za-z\d!@#$%^&*()_+~`|}{[\]:;?><,./-=]*[!@#$%^&*()_+~`|}{[\]:;?><,./-=]{1,}.*$/;
+            if (!passwordRegex.test(password) || password.length < 8) {
+                alert("Password should start with a capital letter, be at least 8 characters long, and contain at least one special character.");
+                return false;
+            }
+
+            return true; // Form is valid
+        }
+    </script>
+</body>
+</html>
